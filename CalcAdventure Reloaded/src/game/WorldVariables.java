@@ -1,8 +1,13 @@
 package game;
 
+import Entities.Player;
+
 public class WorldVariables {
 	
-	public int yourHP = 20;
+	public static Player player;
 	
+	public WorldVariables(){
+		player = new Player();
+	}
 
 }

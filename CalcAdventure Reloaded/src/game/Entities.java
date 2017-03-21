@@ -1,7 +1,8 @@
 package game;
 
-import Items.Weapons.DamageType;
-import Items.Weapons.Enchantment;
+import items.Weapons.DamageType;
+import items.Weapons.Enchantment;
+import Entities.Player;
 
 public enum Entities {
 	
@@ -12,7 +13,7 @@ public enum Entities {
 			new Enchantment[] {},
 			new String[] {	"Your knowledge pales in comparison to mine.",
 							"Face the power of my intellect!",
-							"Have you read a book lately? I've read ten last night."}),
+							"Have you read a book lately? I read ten last night."}),
 	Orc(30, 2, 5, 0, -3, 0, Alignment.Enemy, 
 			new DamageType[] {},
 			new Enchantment[] {},
