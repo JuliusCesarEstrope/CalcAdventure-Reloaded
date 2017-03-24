@@ -5,10 +5,11 @@ import Entities.Player;
 
 public class A_Game {
 	
+	public static WorldVariables world;
+	
 	public static void main(String[] args){
-		WorldVariables world = new WorldVariables();
-		Beginning beginning = new Beginning();
-		beginning.loadScenario();
+		world = new WorldVariables();
+		Beginning.loadScenario();
 	}
 
 }

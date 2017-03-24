@@ -4,14 +4,19 @@ import game.Utilities;
 
 public abstract class Scenario {
 	
+	public String scenarioName;
 	public Scenario[] connected;
 	public String[] destinationNames;
 	public String[] keyWords;
 	
-	public void loadScenario(){
+	public static void loadScenario(){
 		//Loops until player
-		boolean inScenario = true;
+		//boolean inScenario = true;
 		//while(inScenario){} loop of events goes here
+	}
+	
+	public String toString(){
+		return scenarioName;
 	}
 	
 	public void showDestinations(){
@@ -19,7 +24,7 @@ public abstract class Scenario {
 	}
 	
 	public void chooseDestination(){
-		//TODO: Player types in destination name, then load new scenario
+		
 	}
 	
 	public String[] getKeywords(){

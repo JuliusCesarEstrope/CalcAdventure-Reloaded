@@ -38,14 +38,13 @@ public enum Entities {
 	private String[] battlecries;
 	
 	Entities(){
-		this.MAX_HP = Player.MAX_HP;
-		this.CUR_HP = Player.CUR_HP;
-		this.STR = 10 + Player.STR;
-		this.AGI = 10 + Player.AGI;
-		this.DEX = 10 + Player.DEX;
-		this.ITL = 10 + Player.ITL;
-		this.CHA = 10 + Player.CHA;
-		this.align = Player.align;
+		this.MAX_HP = 20;
+		this.CUR_HP = MAX_HP;
+		this.STR = 10;
+		this.AGI = 10;
+		this.DEX = 10;
+		this.ITL = 10;
+		this.CHA = 10;
 	}
 	
 	Entities(int MAX_HP, int STR, int AGI, int DEX, int ITL, int CHA, Alignment align, 
