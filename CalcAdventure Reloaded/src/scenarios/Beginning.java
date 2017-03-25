@@ -16,7 +16,7 @@ public class Beginning extends Scenario {
 	public Beginning() {
 	}
 	
-	public static void loadScenario(){
+	public void loadScenario(){
 		Utilities.display(	"You wake up in a wide, open field.",
 							"In the immediate area, all you see are yellow flowers and shrubs.",
 							"With no recollection of who you are, you create an identity for yourself.",
@@ -39,7 +39,7 @@ public class Beginning extends Scenario {
 							"East is the town of Argandual",
 							"West is the Forest of the Ancient Challenger",
 							"What would you like to do?");
-		loadScenario();
+		//TODO: Write function to allow player to select among connected scenes.
 	}
-
+	
 }

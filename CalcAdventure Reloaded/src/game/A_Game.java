@@ -8,8 +8,8 @@ public class A_Game {
 	public static WorldVariables world;
 	
 	public static void main(String[] args){
-		world = new WorldVariables();
-		Beginning.loadScenario();
+		new WorldVariables();
+		new Beginning();
 	}
 
 }

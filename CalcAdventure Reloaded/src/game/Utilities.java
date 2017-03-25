@@ -60,10 +60,26 @@ public class Utilities {
 		String input = "";
 		while(!valid){
 			input = sc.nextLine();
-			if(isInArray(input, choices))
+			if(isInArray(input, choices) != -1)
 				valid = true;
 			else
 				display(notification);
+		}
+		sc.close();
+		return input;
+	}
+
+	public static String getValidInput(String[] choices, String[] notifications) {
+		Scanner sc = new Scanner(System.in);
+		boolean valid = false;
+		String input = "";
+		while(!valid){
+			input = sc.nextLine();
+			if(isInArray(input, choices) != -1)
+				valid = true;
+			else{
+				display(notifications[roll(notifications.length)-1]);
+			}
 		}
 		sc.close();
 		return input;
@@ -79,7 +95,10 @@ public class Utilities {
 	
 	public static void waitForEnter(){
 		try {
+			display("Press enter to continue.");
 			System.in.read();
+			//Consider writing equivalencies for Mac and Linux
+			//Runtime.getRuntime().exec("cls");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -95,13 +114,26 @@ public class Utilities {
 		return random.nextInt(num) + 1;
 	}
 
-	public static <T> boolean isInArray(T var, T[] arr) {
-		boolean found = false;
+	public static <T> int isInArray(T var, T[] arr) {
+		int foundIndex = -1, curIndex = 0;
 		for (T arg : arr) {
 			if (var.toString().equalsIgnoreCase(arg.toString()))
-				found = true;
+				foundIndex = curIndex;
+			curIndex++;
 		}
-		return found;
+		return foundIndex;
+	}
+	
+	public static <T> String[] toStringArray(T[] arr){
+		String[] stringArray = {}, temp = {};
+		for(int i = 0; i < arr.length; i++){
+			temp = stringArray;
+			stringArray = new String[temp.length + 1];
+			for (int j = 0; j < temp.length; j++)
+				stringArray[j] = temp[j];
+			stringArray[temp.length] = arr[i].toString();
+		}
+		return stringArray;
 	}
 
 	@SuppressWarnings("unchecked")

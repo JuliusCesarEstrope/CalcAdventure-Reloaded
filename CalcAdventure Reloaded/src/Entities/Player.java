@@ -50,9 +50,13 @@ public class Player extends Entity{
 	}
 	
 	public void performAction(Entity[] entityList){
-		String action = getValidAction();
+		String action = Utilities.getValidInput(actionList, new String[]{
+				"Invalid Action.",
+				"Try something else.",
+				"Oak's words echoed... There is a time and place for everything, but not now.",
+				"You can't do that"});
 		//Player performs an attack
-		if(Utilities.isInArray(action, attackWords)){
+		if(Utilities.isInArray(action, attackWords) != -1){
 			Combat.characterAttack(WorldVariables.player, entityList);
 			//TODO: Allow player to chose their target
 			/*Entity target = WorldVariables.player;
@@ -61,14 +65,17 @@ public class Player extends Entity{
 			}*/
 		}
 		//Player does essentially nothing
-		else if(Utilities.isInArray(action, passiveWords))
+		else if(Utilities.isInArray(action, passiveWords) != -1)
 			Utilities.display("You " + action.toLowerCase() + ".");
 		//Player decides to stop playing
-		else if(Utilities.isInArray(action, killWords)){
+		else if(Utilities.isInArray(action, killWords) != -1){
 			CUR_HP = 0;
 		}
 	}
 	
+	//The method below is now unnecessary, though is able to
+	//Present a different distribution of "invalid input" messages
+/*	
 	private String getValidAction(){
 		boolean validAction = false;
 		String input = "Something went wrong in getValidAction()";
@@ -100,7 +107,7 @@ public class Player extends Entity{
 		
 		return input;
 		
-	}
+	}*/
 	
 	public static void addPartyMember(Entity[] members){
 		Utilities.concatAll(party, members);
