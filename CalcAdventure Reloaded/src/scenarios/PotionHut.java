@@ -3,9 +3,6 @@ package scenarios;
 import game.Utilities;
 
 public class PotionHut extends Scenario {
-
-	public PotionHut() {
-	}
 	
 	public void loadScene(){
 		Utilities.display(	"Off in the distance, you can see the forest.",

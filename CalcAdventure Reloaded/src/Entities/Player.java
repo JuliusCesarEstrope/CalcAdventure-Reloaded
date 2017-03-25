@@ -5,22 +5,34 @@ import game.Utilities;
 import game.WorldVariables;
 import items.Weapon;
 import items.weapons.Fist;
+import items.weapons.Super_Epic_Sword;
 
 public class Player extends Entity{
 	
 	public String playerName = "";
 	
-	private static Entity[] party = new Entity[] {};
+	private static Entity[] party = new Entity[] {WorldVariables.player};
 	private static Weapon[] carriedWeapons = new Weapon[] {new Fist(), new Fist()};
 	private static String[] actionList = {"Equip", "Unequip", "Run", "Charm"};
-	private static String[] attackWords = {"Attack", "Kill", "Stab", "Slash", "Punch", "Hit", "Fire"};
-	private static String[] passiveWords = {"None", "No Action", "Peace", "Stand", "Sit", "Lay", "Wiggle", "Flip"};
+	private static String[] attackWords = {"Attack", "Strike", "Kill", "Stab", "Slash", "Punch", "Hit"/*, "Fire"*/};
+	//private static String[] magicWords = {"Cast", "Abracadabra", "Magic"};
+	//private static String[] healWords = {"Recover", "Heal"};
+	//private static String[] throwWords = {"Toss", "Throw", "Fling", "Lob", "Chuck", "Catapult", "Loose", "Launch", "Let Fly"};
+	//private static String[] lookWords = {"Look", "Examine", "Search", "Inspect"};
+	private static String[] passiveWords = {/*"None", "No Action", "Peace",*/ "Stand", "Sit", "Lay Down", "Wiggle", "Flip"};
+	//private static String[] diplomaticWords = {"Peace", "Intimidate", "Diplomacy", "Intimidation"};
+	//private static String[] tameWords = {"Tame", "Feed", "Calm", "Play"};
+	//private static String[] runWords = {"Run", "Escape", "Leave"};
 	private static String[] killWords = {"Suicide", "Seppuku", "Sudoku", "Kill Myself", "Kill Me", "End Game"};
 	
 	public Player(){
 		super();
 		createCharacter();
 		actionList = Utilities.concatAll(actionList, attackWords, passiveWords, killWords);
+		weapon1 = new Super_Epic_Sword();
+		Orc friendlyOrc = new Orc();
+		friendlyOrc.setAlignment(Alignment.Friendly);
+		addPartyMember(friendlyOrc);
 	}
 	
 	public void createCharacter(){
@@ -50,19 +62,39 @@ public class Player extends Entity{
 	}
 	
 	public void performAction(Entity[] entityList){
+		Utilities.display("What action do you take?");
 		String action = Utilities.getValidInput(actionList, new String[]{
 				"Invalid Action.",
 				"Try something else.",
 				"Oak's words echoed... There is a time and place for everything, but not now.",
-				"You can't do that"});
+				"You can't do that."});
 		//Player performs an attack
 		if(Utilities.isInArray(action, attackWords) != -1){
-			Combat.characterAttack(WorldVariables.player, entityList);
-			//TODO: Allow player to chose their target
-			/*Entity target = WorldVariables.player;
+			Entity target = WorldVariables.player;
+			String targetName = "";
+			int targetIndex = -1;
+			boolean validTarget = false;
+			String[] targetList = {};
+			String[] temp = {};
+			
+			Utilities.display("Who do you " + action.toLowerCase() + "?");
+			
 			for(Entity character: entityList){
-				
-			}*/
+				temp = targetList;
+				targetList = new String[temp.length + 1];
+				for(int i = 0; i < temp.length; i++)
+					targetList[i] = temp[i];
+				targetList[temp.length] = character.toString();
+			}
+			
+			while(!validTarget){
+				targetName = Utilities.getValidInput(targetList, "That is not a valid target");
+				targetIndex = Utilities.isInArray(targetName, targetList);
+				if(targetIndex != -1)
+					validTarget =  true;
+			}
+			target = entityList[targetIndex];
+			Combat.characterAttack(WorldVariables.player, new Entity[] {target});
 		}
 		//Player does essentially nothing
 		else if(Utilities.isInArray(action, passiveWords) != -1)
@@ -108,9 +140,17 @@ public class Player extends Entity{
 		return input;
 		
 	}*/
+
+	public static void addPartyMember(Entity member){
+		party = Utilities.concatAll(party, new Entity[] {member});
+	}
 	
-	public static void addPartyMember(Entity[] members){
-		Utilities.concatAll(party, members);
+	public static void addPartyMembers(Entity[] members){
+		party = Utilities.concatAll(party, members);
+	}
+	
+	public static void removePartyMember(Entity member){
+		party = Utilities.removeEntity(member, party);
 	}
 	
 	public static void showCarriedWeapons(){

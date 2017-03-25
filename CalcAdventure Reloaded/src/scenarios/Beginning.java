@@ -4,7 +4,7 @@ import game.Combat;
 import game.Utilities;
 import game.WorldVariables;
 import Entities.Entity;
-import Entities.Orc;
+import Entities.Young_Wolf;
 
 public class Beginning extends Scenario {
 	
@@ -16,7 +16,7 @@ public class Beginning extends Scenario {
 	public Beginning() {
 	}
 	
-	public void loadScenario(){
+	public static void loadScenario(){
 		Utilities.display(	"You wake up in a wide, open field.",
 							"In the immediate area, all you see are yellow flowers and shrubs.",
 							"With no recollection of who you are, you create an identity for yourself.",
@@ -27,11 +27,11 @@ public class Beginning extends Scenario {
 							"...",
 							"*thud*",
 							"You hear the heavy pounding of footsteps approaching you.",
-							"Looking at where they are coming from, you see an Orc charging at you full-speed.");
+							"Looking at where they are coming from, you see two Young Wolves charging at you full-speed.");
 		
-		Combat.battle(new Entity[] {WorldVariables.player, new Orc()});
+		Combat.battle(new Entity[] {WorldVariables.player, new Young_Wolf(), new Young_Wolf()});
 		
-		Utilities.display(	"Having slain the Orc, you decide to get your bearings about you, and wander off into the forest.",
+		Utilities.display(	"You decide to get your bearings about you, and wander off into the forest.",
 							"It is not long until you reach the edge of the woods.",
 							"You come across a crossroads. Here, you see a sign.",
 							"The sign reads; ",

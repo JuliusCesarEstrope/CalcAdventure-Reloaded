@@ -2,7 +2,6 @@ package game;
 
 import items.Weapons.DamageType;
 import items.Weapons.Enchantment;
-import Entities.Player;
 
 public enum Entities {
 	

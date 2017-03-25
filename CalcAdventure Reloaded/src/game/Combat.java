@@ -1,44 +1,73 @@
 package game;
 
+import scenarios.GameOver;
 import Entities.Entity;
 import Entities.Entity.Alignment;
-import Entities.Player;
 
 public class Combat {
-
-	private static Entity[] entityList;
+	
+	private static Entity[] deadEntities = {};
 
 	public static void battle(Entity[] entityList) {
+
+		Utilities.waitForEnter();
 
 		boolean inBattle = true;
 
 		sortEntities(entityList);
-		
+
+		performBattlecries(entityList);
+
 		// Loop continues while enemies exist
 		while (inBattle) {
-			
-			
+
 			displayHP(entityList);
 
-			for (int i = 0; i < entityList.length; i++) {
-				// TODO: Automatic combat AI
-				if(entityList[i].toString().equalsIgnoreCase("Chosen_One"))
-					WorldVariables.player.performAction(entityList);
-				else if(entityList[i].getCUR_HP() > 0)
-					characterAttack(entityList[i], entityList);
-			}
+			performAttacks(entityList);
+
+			inBattle = battleOver(entityList);
 			
-			boolean friendlyAlive = true, enemyAlive = true;
-			for (int i = 0; i < entityList.length; i++) {
-				// TODO: Automatic combat AI
-				if(entityList[i].getName().equals(WorldVariables.player.getName()) && entityList[i].getCUR_HP() <= 0)
-					friendlyAlive = false;
-				if(entityList[i].getAlignment() == Alignment.Enemy && entityList[i].getCUR_HP() <= 0)
-					enemyAlive = false;
-				if(!friendlyAlive || !enemyAlive)
-					inBattle = false;
-			}
+			entityList = cleanupEntities(entityList);
+
 		}
+	}
+
+	private static void performBattlecries(Entity[] entityList) {
+		for (Entity entity : entityList)
+			Utilities.display(entity.toString() + ": " + entity.getBattlecry());
+	}
+
+	private static void performAttacks(Entity[] entityList) {
+		for (int i = 0; i < entityList.length; i++) {
+			// TODO: Automatic combat AI
+			if (entityList[i] == WorldVariables.player)
+				WorldVariables.player.performAction(entityList);
+			else if (entityList[i].getCUR_HP() > 0)
+				characterAttack(entityList[i], entityList);
+		}
+	}
+
+	private static boolean battleOver(Entity[] entityList){
+		boolean enemyAlive = false;
+		for (int i = 0; i < entityList.length; i++) {
+			// TODO: Automatic combat AI
+			if(entityList[i]== WorldVariables.player && entityList[i].getCUR_HP() <= 0){
+				GameOver.loadScenario();
+			}
+			if(entityList[i].getAlignment() == Alignment.Enemy && entityList[i].getCUR_HP() > 0)
+				enemyAlive = true;
+			else if (entityList[i].getCUR_HP() <= 0)
+				deadEntities = Utilities.concatAll(deadEntities, new Entity[]{entityList[i]});
+		}
+		return enemyAlive;
+	}
+	
+	private static Entity[] cleanupEntities(Entity[] entityList){
+		while(deadEntities.length > 0){
+			entityList = Utilities.removeEntity(deadEntities[0], entityList);
+			deadEntities = Utilities.removeEntity(deadEntities[0], deadEntities);
+		}
+		return entityList;
 	}
 
 	// Sorts entities in entityList in descending order byAGI.
@@ -67,12 +96,14 @@ public class Combat {
 					+ entityList[i].getCUR_HP() + "HP");
 		}
 	}
-	
-	public static void characterAttack(Entity character, Entity[] potentialTargets){
+
+	public static void characterAttack(Entity character,
+			Entity[] potentialTargets) {
 		Entity target = WorldVariables.player;
-		for(Entity ent: potentialTargets){
-			if(!character.getAlignment().equals(ent.getAlignment()) && ent.getCUR_HP() > 0)
-					target = ent;
+		for (Entity entity : potentialTargets) {
+			if (!character.getAlignment().equals(entity.getAlignment())
+					&& entity.getCUR_HP() > 0)
+				target = entity;
 		}
 		character.performAttack(target);
 	}

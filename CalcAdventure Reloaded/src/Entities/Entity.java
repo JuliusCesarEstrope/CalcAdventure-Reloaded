@@ -4,8 +4,8 @@ import game.Utilities;
 import items.Weapon;
 import items.Weapon.DamageType;
 import items.Weapon.Enchantment;
-import items.Weapons;
 import items.weapons.Fist;
+import items.weapons.None;
 
 public abstract class Entity {
 	
@@ -18,7 +18,7 @@ public abstract class Entity {
 	public Alignment align;
 	public DamageType[] damageTypeWeaknesses = new DamageType[] {};
 	public Enchantment[] enchantWeaknesses = new Enchantment[] {};
-	public String[] battlecries = {};
+	public String[] battlecries = {"..."};
 	
 	public Entity(){
 		this.Name = "Anonymous";
@@ -37,7 +37,7 @@ public abstract class Entity {
 			String[] battlecries){
 		this.Name = Name;
 		this.MAX_HP = MAX_HP;
-		this.CUR_HP = MAX_HP;
+		this.CUR_HP = MAX_HP; 
 		this.STR = 10 + STR;
 		this.AGI = 10 + AGI;
 		this.DEX = 10 + DEX;
@@ -101,6 +101,10 @@ public abstract class Entity {
 		return battlecries;
 	}
 	
+	public String getBattlecry(){
+		return battlecries[Utilities.randNum(0, battlecries.length)];
+	}
+	
 	public void setName(String Name){
 		this.Name = Name;
 	}
@@ -137,6 +141,8 @@ public abstract class Entity {
 		this.align = align;
 	}
 	
+	//Below should be changed for changing these values
+	//Could be used to change player characteristics
 /*	public void addDamageTypeWeakness(DamageType[] weaknesses){
 		Utilities.concatAll(damageTypeWeaknesses, weaknesses)
 	}
@@ -152,42 +158,59 @@ public abstract class Entity {
 	public void dealDamage(int damage){
 		CUR_HP -= damage;
 	}
-	
+
 	public void showWeapons(){
 		if(weapon1.equals(weapon2))
 			Utilities.display(this.Name + " is equipped with two " + weapon1.toString() + "s.");
 		else {
-			if(!weapon1.equals(new Fist()))
+			if(!(weapon1.equals(new Fist()) || weapon1.equals(new None())))
 				Utilities.display(this.Name + " is equipped with " + weapon1.toString());
-			if (!weapon2.equals(new Fist()))
+			if (!(weapon2.equals(new Fist()) || weapon1.equals(new None())))
 				Utilities.display(" and " + weapon2.toString());
 		}
 	}
 	
 	public void performAttack(Entity target){
-		int hit = Utilities.roll(20) + ((this.getSTR() - 10) / 2);
+		int hit = Utilities.roll(20) + ((getSTR() - 10) / 2);
 		int dodge = 10 + (target.getDEX() - 10) / 2;
 		int damage = 0;
+		int weapon1Mod = 0;
+		int weapon2Mod = 0;
+		//Sets weapon1's damage modifier
+		if(Utilities.isInArray(DamageType.Magic, weapon1.getDamageType()) != -1)
+			weapon1Mod = (getITL() - 10) / 2;
+		else if(Utilities.isInArray(DamageType.Ranged, weapon1.getDamageType()) != -1)
+			weapon1Mod = (getDEX() - 10) / 2;
+		else
+			weapon1Mod = (getSTR() - 10) / 2;
+		//Sets weapon2's damage modifier
+		if(Utilities.isInArray(DamageType.Magic, weapon2.getDamageType()) != -1)
+			weapon2Mod = (getITL() - 10) / 2;
+		else if(Utilities.isInArray(DamageType.Ranged, weapon2.getDamageType()) != -1)
+			weapon2Mod = (getDEX() - 10) / 2;
+		else
+			weapon2Mod = (getSTR() - 10) / 2;
 		if(hit >= dodge){
 			if(weapon1.toString().equalsIgnoreCase(weapon2.toString())){
 				Utilities.display(this.Name + " strikes with two " + weapon1.toString() + "s.");
 				for (int i = 0; i < 2; i++)
 					for (int die : weapon1.getDieRolls())
-						damage += Utilities.roll(die);
+						damage += Utilities.roll(die) + 2 * weapon1Mod;
 			} else {
-				if(!weapon1.equals(new Fist())){
+				if(!(weapon1.equals(new Fist()) || weapon1.equals(new None()))){
 					Utilities.display(this.Name + " strikes with " + weapon1.toString());
 					for (int die : weapon1.getDieRolls())
-						damage += Utilities.roll(die);
+						damage += Utilities.roll(die) + weapon1Mod;
 				}
-				if (!weapon2.equals(new Fist())){
+				if (!(weapon2.equals(new Fist()) || weapon2.equals(new None()))){
 					Utilities.display(" and " + weapon2.toString());
 					for (int die : weapon2.getDieRolls())
-						damage += Utilities.roll(die);
+						damage += Utilities.roll(die) + weapon2Mod;
 				}
 			}
 			if(hit == 20){
-				target.dealDamage(damage * 2);
+				damage *= 2;
+				target.dealDamage(damage);
 				Utilities.display(this.Name + " deals " + damage + "critical damage!");
 			} else{
 				target.dealDamage(damage);

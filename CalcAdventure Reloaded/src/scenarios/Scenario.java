@@ -9,7 +9,7 @@ public abstract class Scenario {
 	public String[] destinationNames;
 	public String[] keyWords;
 	
-	public void loadScenario(){
+	public static void loadScenario(){
 		//Loops until player
 		//boolean inScenario = true;
 		//while(inScenario){} loop of events goes here
@@ -28,7 +28,7 @@ public abstract class Scenario {
 		String choice;
 		destinationNames = Utilities.toStringArray(connectedScenes);
 		choice = Utilities.getValidInput(destinationNames, "You can't go there.");
-		Utilities.isInArray(var, arr)
+		Utilities.isInArray(var, arr);
 	}
 	
 	public String[] getKeywords(){

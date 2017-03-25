@@ -2,10 +2,10 @@ package game;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+
+import Entities.Entity;
 
 public class Utilities {
 
@@ -50,23 +50,11 @@ public class Utilities {
 	}
 
 	public static String getValidInput(String[] choices) {
-		String input = getValidInput(choices, "You can't do that.");
-		return input;
+		return getValidInput(choices, "You can't do that.");
 	}
 
 	public static String getValidInput(String[] choices, String notification) {
-		Scanner sc = new Scanner(System.in);
-		boolean valid = false;
-		String input = "";
-		while(!valid){
-			input = sc.nextLine();
-			if(isInArray(input, choices) != -1)
-				valid = true;
-			else
-				display(notification);
-		}
-		sc.close();
-		return input;
+		return getValidInput(choices, new String[] {notification});
 	}
 
 	public static String getValidInput(String[] choices, String[] notifications) {
@@ -81,13 +69,21 @@ public class Utilities {
 				display(notifications[roll(notifications.length)-1]);
 			}
 		}
-		sc.close();
+		//sc.close();//Known to cause problems
 		return input;
 	}
 	
 	public static void pauseForEffect(){
 		try {
 			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void pauseForEffect(int time){
+		try {
+			Thread.sleep(time);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -136,17 +132,40 @@ public class Utilities {
 		return stringArray;
 	}
 
+	public static Entity[] removeEntity(Entity var, Entity[] arr) {
+		Entity[] result = {}, temp = arr;
+		result = new Entity[temp.length - 1];
+		for(int i = 0; i < result.length; i++){
+			if(temp[i] != var){
+				result[i] = temp[i];
+			}
+		}
+		return result;
+	}
+	
+	//The below does not work, gives error for trying to cast Object[] into Entity[]
+/*
 	@SuppressWarnings("unchecked")
-	public static <T> T removeFromArray(T var, T[] arr) {
+	public static <T> T[] removeFromArray(T var, T[] arr) {
 		List<T> result = new LinkedList<T>();
 
 		for (T item : arr)
 			if (!var.toString().equalsIgnoreCase(item.toString()))
 				result.add(item);
 
-		return (T) result.toArray();
+		return (T[])result.toArray();
 	}
+	
+	public static  Entity[] removeFromArray(Entity var, Entity[] arr) {
+		List<Entity> result = new LinkedList<Entity>();
 
+		for (Entity item : arr)
+			if (!var.toString().equalsIgnoreCase(item.toString()))
+				result.add(item);
+
+		return (Entity[]) result.toArray();
+	}
+*/
 	@SafeVarargs
 	public static <T> T[] concatAll(T[] first, T[]... rest) {
 		int totalLength = first.length;
