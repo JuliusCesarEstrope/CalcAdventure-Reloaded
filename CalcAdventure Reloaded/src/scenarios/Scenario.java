@@ -9,11 +9,7 @@ public abstract class Scenario {
 	public String[] destinationNames;
 	public String[] keyWords;
 	
-	public static void loadScenario(){
-		//Loops until player
-		//boolean inScenario = true;
-		//while(inScenario){} loop of events goes here
-	}
+	public abstract void loadScenario();
 	
 	public String toString(){
 		return scenarioName;
@@ -24,11 +20,10 @@ public abstract class Scenario {
 	}
 	
 	public void chooseDestination(Scenario[] connectedScenes){
-		int sceneIndex = -1;
 		String choice;
 		destinationNames = Utilities.toStringArray(connectedScenes);
 		choice = Utilities.getValidInput(destinationNames, "You can't go there.");
-		Utilities.isInArray(var, arr);
+		moveTo(connected[Utilities.isInArray(choice, destinationNames)]);
 	}
 	
 	public String[] getKeywords(){

@@ -3,6 +3,7 @@ package Entities;
 import items.Weapon;
 import items.Weapon.DamageType;
 import items.Weapon.Enchantment;
+import items.weapons.Axe;
 import items.weapons.Fist;
 
 public class Orc extends Entity {
@@ -15,7 +16,7 @@ public class Orc extends Entity {
 						DEX = 0, 
 						ITL = -3, 
 						CHA = 0;
-	public static Weapon	weapon1 = new Fist(), 
+	public static Weapon	weapon1 = new Axe(), 
 					weapon2 = new Fist();
 	public static Alignment align = Alignment.Enemy;
 	public static DamageType[] damageTypeWeaknesses = new DamageType[] {};

@@ -3,7 +3,7 @@ package items;
 
 public abstract class Weapon extends Item{
 
-	public enum DamageType{None, Bludgeoning, Piercing, Slashing, Ranged, Magic};
+	public enum DamageType{None, Bludgeoning, Piercing, Slashing, Ranged, Mental, Magic};
 	public enum Enchantment{None, Fire, Lightning, Poison, Holy};
 	
 	private int[] dieRolls;

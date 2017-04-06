@@ -114,7 +114,10 @@ public abstract class Entity {
 	}
 	
 	public void setCUR_HP(int CUR_HP){
-		this.CUR_HP = CUR_HP;
+		if(CUR_HP < MAX_HP)
+			this.CUR_HP = CUR_HP;
+		else
+			this.CUR_HP = MAX_HP;
 	}
 	
 	public void setSTR(int STR){
@@ -137,26 +140,53 @@ public abstract class Entity {
 		this.CHA = CHA;
 	}
 	
+	public void modMAX_HP(int MAX_HP){
+		this.MAX_HP += MAX_HP;
+	}
+	
+	//TODO: CHANGE THIS
+	public void modCUR_HP(int CUR_HP){
+		this.CUR_HP += CUR_HP;
+		if(CUR_HP > MAX_HP)
+			this.CUR_HP = MAX_HP;
+	}
+	
+	public void modSTR(int STR){
+		this.STR += STR;
+	}
+	
+	public void modAGI(int AGI){
+		this.AGI += AGI;
+	}
+	
+	public void modDEX(int DEX){
+		this.DEX += DEX;
+	}
+	
+	public void modITL(int ITL){
+		this.ITL += ITL;
+	}
+	
+	public void modCHA(int CHA){
+		this.CHA += CHA;
+	}
+	
 	public void setAlignment(Alignment align){
 		this.align = align;
 	}
 	
 	//Below should be changed for changing these values
 	//Could be used to change player characteristics
-/*	public void addDamageTypeWeakness(DamageType[] weaknesses){
-		Utilities.concatAll(damageTypeWeaknesses, weaknesses)
+	public void addDamageTypeWeakness(DamageType[] weaknesses){
+		Utilities.concatAll(damageTypeWeaknesses, weaknesses);
 	}
 	
-	public Enchantment[] getEnchantmentWeaknesses(){
-		return enchantWeaknesses;
+	public void addEnchantmentWeaknesses(Enchantment[] weaknesses){
+		Utilities.concatAll(enchantWeaknesses, weaknesses);
 	}
 	
-	public String[] getBattlecries(){
-		return battlecries;
-	}*/
-	
-	public void dealDamage(int damage){
-		CUR_HP -= damage;
+	public void addBattlecries(String[] newBattleCries){
+		Utilities.concatAll(battlecries, newBattleCries);
 	}
 
 	public void showWeapons(){
@@ -171,51 +201,55 @@ public abstract class Entity {
 	}
 	
 	public void performAttack(Entity target){
-		int hit = Utilities.roll(20) + ((getSTR() - 10) / 2);
+		int hit = Utilities.roll(20);
 		int dodge = 10 + (target.getDEX() - 10) / 2;
 		int damage = 0;
 		int weapon1Mod = 0;
 		int weapon2Mod = 0;
 		//Sets weapon1's damage modifier
-		if(Utilities.isInArray(DamageType.Magic, weapon1.getDamageType()) != -1)
+		if(Utilities.isInArray(DamageType.Magic, weapon1.getDamageType()) != -1 
+				&& Utilities.isInArray(DamageType.Ranged, weapon1.getDamageType()) == -1
+				&& getSTR() < getITL())
 			weapon1Mod = (getITL() - 10) / 2;
 		else if(Utilities.isInArray(DamageType.Ranged, weapon1.getDamageType()) != -1)
 			weapon1Mod = (getDEX() - 10) / 2;
 		else
 			weapon1Mod = (getSTR() - 10) / 2;
 		//Sets weapon2's damage modifier
-		if(Utilities.isInArray(DamageType.Magic, weapon2.getDamageType()) != -1)
+		if(Utilities.isInArray(DamageType.Magic, weapon2.getDamageType()) != -1 
+				&& Utilities.isInArray(DamageType.Ranged, weapon2.getDamageType()) == -1
+				&& getSTR() < getITL())
 			weapon2Mod = (getITL() - 10) / 2;
 		else if(Utilities.isInArray(DamageType.Ranged, weapon2.getDamageType()) != -1)
 			weapon2Mod = (getDEX() - 10) / 2;
 		else
 			weapon2Mod = (getSTR() - 10) / 2;
+		hit += (weapon1Mod > weapon2Mod)? weapon1Mod: weapon2Mod;
 		if(hit >= dodge){
-			if(weapon1.toString().equalsIgnoreCase(weapon2.toString())){
+			if(weapon1.toString().equals(weapon2.toString())){
 				Utilities.display(this.Name + " strikes with two " + weapon1.toString() + "s.");
 				for (int i = 0; i < 2; i++)
 					for (int die : weapon1.getDieRolls())
 						damage += Utilities.roll(die) + 2 * weapon1Mod;
 			} else {
-				if(!(weapon1.equals(new Fist()) || weapon1.equals(new None()))){
+				if(!(weapon1.toString().equals(new Fist().toString()) || weapon1.toString().equals(new None().toString()))){
 					Utilities.display(this.Name + " strikes with " + weapon1.toString());
 					for (int die : weapon1.getDieRolls())
 						damage += Utilities.roll(die) + weapon1Mod;
 				}
-				if (!(weapon2.equals(new Fist()) || weapon2.equals(new None()))){
+				if (!(weapon2.toString().equals(new Fist().toString()) || weapon2.toString().equals(new None().toString()))){
 					Utilities.display(" and " + weapon2.toString());
 					for (int die : weapon2.getDieRolls())
 						damage += Utilities.roll(die) + weapon2Mod;
 				}
 			}
 			if(hit == 20){
-				damage *= 2;
-				target.dealDamage(damage);
-				Utilities.display(this.Name + " deals " + damage + "critical damage!");
+				damage *= 1.5;
+				Utilities.display(this.Name + " deals " + damage + " critical damage to " + target.toString() + "!");
 			} else{
-				target.dealDamage(damage);
-				Utilities.display(this.Name + " deals " + damage + " damage.");
+				Utilities.display(this.Name + " deals " + damage + " damage to " + target.toString() + ".");
 			}
+			target.modCUR_HP(-damage);
 		} else
 			Utilities.display(this.Name + " missed " + target.toString());
 		

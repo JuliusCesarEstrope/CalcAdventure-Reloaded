@@ -10,14 +10,24 @@ import Entities.Entity;
 public class Utilities {
 
 	public static void display(String message) {
-		System.out.println(message);
-		pauseForEffect();
+		display(new String[]{message});
+	}
+
+	public static void display(String message, int wait) {
+		display(new String[]{message}, wait);
 	}
 
 	public static void display(String[] messages) {
 		for (int i = 0; i < messages.length; i++) {
 			System.out.println(messages[i]);
-			pauseForEffect();
+			pauseForEffect(500);
+		}
+	}
+
+	public static void display(String[] messages, int wait) {
+		for (int i = 0; i < messages.length; i++) {
+			System.out.println(messages[i]);
+			pauseForEffect(wait);
 		}
 	}
 
@@ -26,7 +36,15 @@ public class Utilities {
 		System.out.println(message);
 		for (int i = 0; i < rest.length; i++) {
 			System.out.println(rest[i]);
-			pauseForEffect();
+			pauseForEffect(500);
+		}
+	}
+
+	public static void display(int wait, String message, String ... rest) {
+		System.out.println(message);
+		for (int i = 0; i < rest.length; i++) {
+			System.out.println(rest[i]);
+			pauseForEffect(wait);
 		}
 	}
 
@@ -71,6 +89,14 @@ public class Utilities {
 		}
 		//sc.close();//Known to cause problems
 		return input;
+	}
+	
+	public static boolean playerYN(){
+		String[] yes = {"Yes", "Sure", "Yup", "Okay", "Absolutely", "I guess", "Ye", "Affirmative", "Fine", "Yea", "Yeah", "Aye"," Definitely", "By all means", "Certainly", "Sure Thing"};
+		if(isInArray(getInput(), yes) != -1)
+			return true;
+		else
+			return false;
 	}
 	
 	public static void pauseForEffect(){
@@ -124,6 +150,7 @@ public class Utilities {
 		String[] stringArray = {}, temp = {};
 		for(int i = 0; i < arr.length; i++){
 			temp = stringArray;
+			Utilities.display(arr[i].toString());
 			stringArray = new String[temp.length + 1];
 			for (int j = 0; j < temp.length; j++)
 				stringArray[j] = temp[j];
@@ -133,12 +160,18 @@ public class Utilities {
 	}
 
 	public static Entity[] removeEntity(Entity var, Entity[] arr) {
-		Entity[] result = {}, temp = arr;
-		result = new Entity[temp.length - 1];
-		for(int i = 0; i < result.length; i++){
-			if(temp[i] != var){
-				result[i] = temp[i];
+		Entity[] result = {};
+		int count = 0;
+		result = new Entity[arr.length - 1];		
+		for(int i = 0; i < arr.length; i++){
+			//Utilities.display("Looking at index " + i);//Used for troubleshooting
+			if(arr[i] != var){
+				result[count] = arr[i];
+				//Utilities.display(arr[i].toString() + " was added to array.");//Used for troubleshooting
+				count++;
 			}
+			//else
+				//Utilities.display(var.toString() + " found. Not adding array.");//Used for troubleshooting
 		}
 		return result;
 	}

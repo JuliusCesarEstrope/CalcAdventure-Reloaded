@@ -8,7 +8,7 @@ public class A_Game {
 	
 	public static void main(String[] args){
 		new WorldVariables();
-		Beginning.loadScenario();
+		new Beginning().loadScenario();
 	}
 
 }

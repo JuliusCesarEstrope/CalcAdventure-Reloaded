@@ -12,6 +12,10 @@ public enum Entities {
 			new Enchantment[] {},
 			new String[] {	"Your knowledge pales in comparison to mine.",
 							"Face the power of my intellect!",
+							"Your knowledge pales in comparison to mine.",
+							"Face the power of my intellect!",
+							"Your knowledge pales in comparison to mine.",
+							"Face the power of my intellect!",
 							"Have you read a book lately? I read ten last night."}),
 	Orc(30, 2, 5, 0, -3, 0, Alignment.Enemy, 
 			new DamageType[] {},
@@ -26,6 +30,12 @@ public enum Entities {
 			new String[] {	"Rrraaaa...",
 							"Graa...",
 							"Zom zom, Zombie!",
+							"Rrraaaa...",
+							"Graa...",
+							"Rrraaaa...",
+							"Graa...",
+							"Rrraaaa...",
+							"Graa...",
 							"You humans are so uncouth. Brains are for truly civilized folks."});
 	
 	public enum Alignment{Friendly, Neutral, Enemy};

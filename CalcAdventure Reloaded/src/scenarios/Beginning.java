@@ -7,16 +7,13 @@ import Entities.Entity;
 import Entities.Young_Wolf;
 
 public class Beginning extends Scenario {
-	
-	public String scenarioName = "Beginning";
-	public Scenario[] connected;
-	public String[] destinationNames;
-	public String[] keyWords;
 
 	public Beginning() {
+		scenarioName = "Beginning";
+		connected = new Scenario[]{new PotionHut(), new IcerunedPlains(), new Argandual()};
 	}
 	
-	public static void loadScenario(){
+	public void loadScenario(){
 		Utilities.display(	"You wake up in a wide, open field.",
 							"In the immediate area, all you see are yellow flowers and shrubs.",
 							"With no recollection of who you are, you create an identity for yourself.",
@@ -26,10 +23,11 @@ public class Beginning extends Scenario {
 		Utilities.display(	"*thud*",
 							"...",
 							"*thud*",
-							"You hear the heavy pounding of footsteps approaching you.",
-							"Looking at where they are coming from, you see two Young Wolves charging at you full-speed.");
+							"You hear soft padded footsteps approaching you.",
+							"Looking at where they are coming from, you see two Young Wolves approaching.");
 		
-		Combat.battle(new Entity[] {WorldVariables.player, new Young_Wolf(), new Young_Wolf()});
+		Combat.battle(Utilities.concatAll(WorldVariables.player.getParty(), 
+				new Entity[] {WorldVariables.player, new Young_Wolf(), new Young_Wolf()}));
 		
 		Utilities.display(	"You decide to get your bearings about you, and wander off into the forest.",
 							"It is not long until you reach the edge of the woods.",
@@ -38,8 +36,10 @@ public class Beginning extends Scenario {
 							"North is the Iceruned Plains",
 							"East is the town of Argandual",
 							"West is the Forest of the Ancient Challenger",
-							"What would you like to do?");
-		//TODO: Write function to allow player to select among connected scenes.
+							/*"What would you like to do?"*/
+							"Where would you like to go?");
+		//TODO: Allow player to do other things before leaving
+		chooseDestination(connected);
 	}
 	
 }

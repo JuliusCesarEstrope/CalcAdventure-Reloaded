@@ -4,14 +4,19 @@ import game.Combat;
 import game.Utilities;
 import game.WorldVariables;
 import items.Weapon;
+import items.weapons.Axe;
+import items.weapons.Boomerang;
 import items.weapons.Fist;
-import items.weapons.Super_Epic_Sword;
+import items.weapons.Strong_Fist;
+import items.weapons.Wand;
+import items.weapons.Words;
+import scenarios.GameOver;
 
 public class Player extends Entity{
 	
 	public String playerName = "";
 	
-	private static Entity[] party = new Entity[] {WorldVariables.player};
+	private static Entity[] party = new Entity[] {};
 	private static Weapon[] carriedWeapons = new Weapon[] {new Fist(), new Fist()};
 	private static String[] actionList = {"Equip", "Unequip", "Run", "Charm"};
 	private static String[] attackWords = {"Attack", "Strike", "Kill", "Stab", "Slash", "Punch", "Hit"/*, "Fire"*/};
@@ -19,7 +24,7 @@ public class Player extends Entity{
 	//private static String[] healWords = {"Recover", "Heal"};
 	//private static String[] throwWords = {"Toss", "Throw", "Fling", "Lob", "Chuck", "Catapult", "Loose", "Launch", "Let Fly"};
 	//private static String[] lookWords = {"Look", "Examine", "Search", "Inspect"};
-	private static String[] passiveWords = {/*"None", "No Action", "Peace",*/ "Stand", "Sit", "Lay Down", "Wiggle", "Flip"};
+	private static String[] passiveWords = {/*"None", "No Action", "Peace",*/ "Stand", "Sit", "Lay Down", "Wiggle", "Flip", "Cry", "Roll"};
 	//private static String[] diplomaticWords = {"Peace", "Intimidate", "Diplomacy", "Intimidation"};
 	//private static String[] tameWords = {"Tame", "Feed", "Calm", "Play"};
 	//private static String[] runWords = {"Run", "Escape", "Leave"};
@@ -28,14 +33,15 @@ public class Player extends Entity{
 	public Player(){
 		super();
 		createCharacter();
+		setStartingWeapon();
 		actionList = Utilities.concatAll(actionList, attackWords, passiveWords, killWords);
-		weapon1 = new Super_Epic_Sword();
+		/*weapon1 = new Super_Epic_Sword();
 		Orc friendlyOrc = new Orc();
 		friendlyOrc.setAlignment(Alignment.Friendly);
-		addPartyMember(friendlyOrc);
+		addPartyMember(friendlyOrc);*/
 	}
 	
-	public void createCharacter(){
+	private void createCharacter(){
 		MAX_HP = 15 + Utilities.roll(4) + Utilities.roll(4);
 		CUR_HP = MAX_HP;
 		STR = highestThree();
@@ -45,7 +51,7 @@ public class Player extends Entity{
 		CHA = highestThree();
 	}
 	
-	public int highestThree(){
+	private int highestThree(){
 		int sum = 0, lowestIndex = 7;
 		int[] rolls = new int[4];
 		
@@ -59,6 +65,21 @@ public class Player extends Entity{
 		sum -= lowestIndex;
 		
 		return sum;
+	}
+	
+	private void setStartingWeapon(){
+		if(STR > ITL && STR > CHA){
+			if(STR > DEX)
+				weapon1 = new Axe();
+			else if(STR == DEX)
+				weapon1 = new Strong_Fist();
+			else
+				weapon1 = new Boomerang();
+		}
+		else if(ITL > CHA)
+			weapon1 = new Wand();
+		else
+			weapon1 = new Words();
 	}
 	
 	public void performAction(Entity[] entityList){
@@ -140,20 +161,32 @@ public class Player extends Entity{
 		return input;
 		
 	}*/
+	
+	public void modCUR_HP(){
+		this.CUR_HP += CUR_HP;
+		if(CUR_HP > MAX_HP)
+			this.CUR_HP = MAX_HP;
+		if(this.CUR_HP <1)
+			new GameOver();
+	}
 
-	public static void addPartyMember(Entity member){
+	public Entity[] getParty(){
+		return party;
+	}
+	
+	public void addPartyMember(Entity member){
 		party = Utilities.concatAll(party, new Entity[] {member});
 	}
 	
-	public static void addPartyMembers(Entity[] members){
+	public void addPartyMembers(Entity[] members){
 		party = Utilities.concatAll(party, members);
 	}
 	
-	public static void removePartyMember(Entity member){
+	public void removePartyMember(Entity member){
 		party = Utilities.removeEntity(member, party);
 	}
 	
-	public static void showCarriedWeapons(){
+	public void showCarriedWeapons(){
 		Utilities.showElements(carriedWeapons);
 	}
 
