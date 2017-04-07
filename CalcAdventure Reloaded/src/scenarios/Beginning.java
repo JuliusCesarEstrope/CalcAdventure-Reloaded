@@ -7,10 +7,13 @@ import Entities.Entity;
 import Entities.Young_Wolf;
 
 public class Beginning extends Scenario {
+	
+	private static String scenarioName = "Beginning";;
+	private static Scenario[] connected = {new PotionHut(), new IcerunedPlains(), new Argandual()};
+	private static String[] keyWords = {};
 
 	public Beginning() {
-		scenarioName = "Beginning";
-		connected = new Scenario[]{new PotionHut(), new IcerunedPlains(), new Argandual()};
+		super(scenarioName, connected, keyWords);
 	}
 	
 	public void loadScenario(){

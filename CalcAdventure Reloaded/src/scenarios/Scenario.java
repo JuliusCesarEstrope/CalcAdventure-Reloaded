@@ -1,13 +1,19 @@
 package scenarios;
 
 import game.Utilities;
+import game.WorldVariables;
 
 public abstract class Scenario {
 	
-	public String scenarioName;
-	public Scenario[] connected;
-	public String[] destinationNames;
-	public String[] keyWords;
+	private String scenarioName;
+	private Scenario[] connected;
+	private String[] keyWords;
+	
+	public Scenario(String scenarioName, Scenario[] connected, String[] keyWords){
+		this.scenarioName = scenarioName;
+		this.connected = connected;
+		this.keyWords = keyWords;
+	}
 	
 	public abstract void loadScenario();
 	
@@ -21,6 +27,7 @@ public abstract class Scenario {
 	
 	public void chooseDestination(Scenario[] connectedScenes){
 		String choice;
+		String[] destinationNames;
 		destinationNames = Utilities.toStringArray(connectedScenes);
 		choice = Utilities.getValidInput(destinationNames, "You can't go there.");
 		moveTo(connected[Utilities.isInArray(choice, destinationNames)]);
@@ -31,7 +38,7 @@ public abstract class Scenario {
 	}
 
 	public void moveTo(Scenario scene){
-		scene.loadScenario();
+		WorldVariables.setDestination(scene);
 	}
 
 }

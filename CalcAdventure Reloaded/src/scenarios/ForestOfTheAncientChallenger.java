@@ -8,14 +8,13 @@ import Entities.Entity.Alignment;
 import Entities.Ohmarr;
 
 public class ForestOfTheAncientChallenger extends Scenario {
-
-	public String scenarioName = "Forest of the Ancient Challenger";
-	public Scenario[] connected;
-	public String[] destinationNames;
-	public String[] keyWords;
+	
+	private static String scenarioName = "Forest of the Ancient Challenger";
+	private static Scenario[] connected = {};
+	private static String[] keyWords = {};
 
 	public ForestOfTheAncientChallenger() {
-		// TODO Auto-generated constructor stub
+		super(scenarioName, connected, keyWords);
 	}
 
 	public void loadScenario() {

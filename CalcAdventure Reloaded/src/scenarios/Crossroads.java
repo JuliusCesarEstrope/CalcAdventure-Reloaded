@@ -4,11 +4,12 @@ import game.Utilities;
 
 public class Crossroads extends Scenario {
 	
+	private static String scenarioName = "Crossroads";
+	private static Scenario[] connected = {new PotionHut(), new IcerunedPlains(), new Argandual()};
+	private static String[] keyWords = {};
 
 	public Crossroads() {
-		scenarioName = "Crossroads";
-		connected = new Scenario[]{new PotionHut(), new IcerunedPlains(), new Argandual()};
-		
+		super(scenarioName, connected, keyWords);
 	}
 	
 	public void loadScenario(){

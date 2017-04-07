@@ -5,8 +5,12 @@ import game.WorldVariables;
 
 public class PotionHut extends Scenario {
 	
-	public PotionHut(){
-		scenarioName = "Forest of the Ancient Challenger";
+	private static String scenarioName = "Forest of the Ancient Challenger";
+	private static Scenario[] connected = {};
+	private static String[] keyWords = {};
+
+	public PotionHut() {
+		super(scenarioName, connected, keyWords);
 	}
 
 	public void loadScenario() {
@@ -18,8 +22,6 @@ public class PotionHut extends Scenario {
 		// If players trusts stranger
 
 		potionDrink();
-
-		moveTo(new ForestOfTheAncientChallenger());
 	}
 
 	private void potionDrink(){
@@ -118,8 +120,11 @@ public class PotionHut extends Scenario {
 			Utilities.display(	"You decline the offer and continue on your way.");
 		}
 		if(Utilities.isInArray("Forest of the Ancient Challenger", WorldVariables.visited) == -1){
-			new ForestOfTheAncientChallenger();
 			Utilities.concatAll(WorldVariables.visited, new String[]{"Forest of the Ancient Challenger"});
+			moveTo(new ForestOfTheAncientChallenger());
+		} else {
+			Utilities.display("You head back to the crossroads.");
+			moveTo(new Crossroads());
 		}
 	}
 }
