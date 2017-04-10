@@ -1,6 +1,5 @@
 package items.weapons;
 
-import items.Weapon;
 
 public class Strong_Fist extends Weapon{
 	

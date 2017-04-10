@@ -36,7 +36,7 @@ public class PotionHut extends Scenario {
 				"When you enter, the glimmer of colored bottles overwhelms you.",
 				"The plethora of magical potions is intimidating.",
 				"The stranger asks,",
-				"Would you care to try some of the potions?");
+				"\"Would you care to try some of the potions?\"");
 			
 			drinkingPotions = Utilities.playerYN();
 			
@@ -97,7 +97,7 @@ public class PotionHut extends Scenario {
 						"\"Wow. That tastes good.\"",
 						"Nothing else Happens");
 
-				Utilities.display("Want another?");
+				Utilities.display("\"Want another?\"");
 				playerSaysYes = Utilities.playerYN();
 				
 				if (playerSaysYes) {

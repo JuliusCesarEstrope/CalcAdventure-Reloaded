@@ -1,6 +1,5 @@
 package items.weapons;
 
-import items.Weapon;
 
 public class Super_Epic_Sword extends Weapon {
 	

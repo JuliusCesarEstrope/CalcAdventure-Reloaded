@@ -3,12 +3,12 @@ package Entities;
 import game.Combat;
 import game.Utilities;
 import game.WorldVariables;
-import items.Weapon;
 import items.weapons.Axe;
 import items.weapons.Boomerang;
 import items.weapons.Fist;
 import items.weapons.Strong_Fist;
 import items.weapons.Wand;
+import items.weapons.Weapon;
 import items.weapons.Words;
 import scenarios.GameOver;
 
@@ -20,8 +20,8 @@ public class Player extends Entity{
 	private static Weapon[] carriedWeapons = new Weapon[] {new Fist(), new Fist()};
 	private static String[] actionList = {"Equip", "Unequip", "Run", "Charm"};
 	private static String[] attackWords = {"Attack", "Strike", "Kill", "Stab", "Slash", "Punch", "Hit"/*, "Fire"*/};
-	//private static String[] magicWords = {"Cast", "Abracadabra", "Magic"};
-	//private static String[] healWords = {"Recover", "Heal"};
+	//private static String[] magicWords = {"Cast", "Abracadabra", "Magic"}; //Probably not going to be used.
+	//private static String[] healWords = {"Recover", "Heal"}; //Probably not going to be used.
 	//private static String[] throwWords = {"Toss", "Throw", "Fling", "Lob", "Chuck", "Catapult", "Loose", "Launch", "Let Fly"};
 	//private static String[] lookWords = {"Look", "Examine", "Search", "Inspect"};
 	private static String[] passiveWords = {/*"None", "No Action", "Peace",*/ "Stand", "Sit", "Lay Down", "Wiggle", "Flip", "Cry", "Roll"};
@@ -44,11 +44,21 @@ public class Player extends Entity{
 	private void createCharacter(){
 		MAX_HP = 15 + Utilities.roll(4) + Utilities.roll(4);
 		CUR_HP = MAX_HP;
-		STR = highestThree();
-		AGI = highestThree();
-		DEX = highestThree();
-		ITL = highestThree();
-		CHA = highestThree();
+		int sum = 0;
+		while(sum < 72){//Done so player doesn't get screwed with low stats.
+			sum = 0;
+			sum += STR = highestThree();
+			sum += AGI = highestThree();
+			sum += DEX = highestThree();
+			sum += ITL = highestThree();
+			sum += CHA = highestThree();
+		}
+		Utilities.display(
+			"STR: " + STR,
+			"AGI: " + AGI,
+			"DEX: " + DEX,
+			"ITL: " + ITL,
+			"CHA: " + CHA);
 	}
 	
 	private int highestThree(){

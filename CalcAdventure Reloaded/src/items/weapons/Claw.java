@@ -1,6 +1,5 @@
 package items.weapons;
 
-import items.Weapon;
 
 public class Claw extends Weapon{
 	

@@ -6,7 +6,8 @@ public abstract class Item {
 	public int weight = 0;
 	public String description = "";
 	
-	public Item(int weight, String description){
+	public Item(String name, int weight, String description){
+		this.name = name;
 		this.weight = weight;
 		this.description = description;
 	}

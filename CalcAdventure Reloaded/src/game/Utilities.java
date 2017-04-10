@@ -20,7 +20,7 @@ public class Utilities {
 	public static void display(String[] messages) {
 		for (int i = 0; i < messages.length; i++) {
 			System.out.println(messages[i]);
-			pauseForEffect(500);
+			pauseForEffect();
 		}
 	}
 
@@ -32,16 +32,17 @@ public class Utilities {
 	}
 
 	public static void display(String message, String ... rest) {
-		pauseForEffect();
 		System.out.println(message);
+		pauseForEffect();
 		for (int i = 0; i < rest.length; i++) {
 			System.out.println(rest[i]);
-			pauseForEffect(500);
+			pauseForEffect();
 		}
 	}
 
 	public static void display(int wait, String message, String ... rest) {
 		System.out.println(message);
+		pauseForEffect(wait);
 		for (int i = 0; i < rest.length; i++) {
 			System.out.println(rest[i]);
 			pauseForEffect(wait);
@@ -101,7 +102,7 @@ public class Utilities {
 	
 	public static void pauseForEffect(){
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(1500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -134,6 +135,23 @@ public class Utilities {
 	public static int roll(int num) {
 		Random random = new Random();
 		return random.nextInt(num) + 1;
+	}
+	
+	public static int getGameTime(){
+		return (int) (System.currentTimeMillis() %3600000) / 60000;
+	}
+	
+	public static String getTimeOfDay(){
+		String timeOfDay = "Whoops. Something went wrong.";
+		if(getGameTime() <= 12)
+			timeOfDay = "morning";
+		else if(getGameTime() <= 36)
+			timeOfDay = "midday";
+		else if(getGameTime() <= 48)
+			timeOfDay = "evening";
+		else
+			timeOfDay = "night";
+		return timeOfDay;
 	}
 
 	public static <T> int isInArray(T var, T[] arr) {

@@ -65,12 +65,12 @@ public class ForestOfTheAncientChallenger extends Scenario {
 			playerSaysYes = Utilities.playerYN();
 			if(playerSaysYes){
 				Utilities.display(
-					"You decide to accept the offer",
-					"\"I shall humbly comply to your wishes,\" you say",
+					"You decide to accept the offer.",
+					"\"I shall humbly comply to your wishes,\" you say.",
 					"The man begins the quiz",
 					"\"Okay then, first question. What type of enemy did you fight at the beginning of the game?\"",
 					"You say...",
-					"\"What an odd question... I shall have to make a guess\"");
+					"\"What an odd question... I shall have to make a guess.\"");
 				playerInput = Utilities.getInput();
 				if(playerInput.equalsIgnoreCase("Young Wolf")){
 					Utilities.display(
@@ -90,9 +90,9 @@ public class ForestOfTheAncientChallenger extends Scenario {
 								"You reply,");
 							if(WorldVariables.player.getCHA() > 11){
 								Utilities.display(
-									"\"I do pride myself in being intelligent\"",
+									"\"I do pride myself in being intelligent.\"",
 									"He says,",
-									"\"That's good! From what I can tell,\"");
+									"\"That's good! Though from what I can tell,\"");
 								if(WorldVariables.player.getITL() > (new Ohmarr()).getITL()){
 									Utilities.display(
 										"\"I can learn a thing or two from yoFasdfu.\"",

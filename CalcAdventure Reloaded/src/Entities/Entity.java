@@ -1,11 +1,11 @@
 package Entities;
 
 import game.Utilities;
-import items.Weapon;
-import items.Weapon.DamageType;
-import items.Weapon.Enchantment;
 import items.weapons.Fist;
 import items.weapons.None;
+import items.weapons.Weapon;
+import items.weapons.Weapon.DamageType;
+import items.weapons.Weapon.Enchantment;
 
 public abstract class Entity {
 	
@@ -13,8 +13,8 @@ public abstract class Entity {
 	
 	public String Name;
 	public int MAX_HP, CUR_HP, STR, AGI, DEX, ITL, CHA;
-	public Weapon	weapon1 = new Fist(), 
-					weapon2 = new Fist();
+	public Weapon	weapon1 = new None(), 
+					weapon2 = new None();
 	public Alignment align;
 	public DamageType[] damageTypeWeaknesses = new DamageType[] {};
 	public Enchantment[] enchantWeaknesses = new Enchantment[] {};
@@ -33,7 +33,7 @@ public abstract class Entity {
 	}
 	
 	public Entity(String Name, int MAX_HP, int STR, int AGI, int DEX, int ITL, int CHA, Alignment align, 
-			DamageType[] damageTypeWeaknesses, items.Weapon.Enchantment[] enchantWeaknesses,
+			DamageType[] damageTypeWeaknesses, items.weapons.Weapon.Enchantment[] enchantWeaknesses,
 			String[] battlecries){
 		this.Name = Name;
 		this.MAX_HP = MAX_HP;
@@ -188,6 +188,14 @@ public abstract class Entity {
 	public void addBattlecries(String[] newBattleCries){
 		Utilities.concatAll(battlecries, newBattleCries);
 	}
+	
+	public void healFully(){
+		CUR_HP = MAX_HP;
+	}
+	
+	public void kill(){
+		CUR_HP = 0;
+	}
 
 	public void showWeapons(){
 		if(weapon1.equals(weapon2))
@@ -224,23 +232,25 @@ public abstract class Entity {
 			weapon2Mod = (getDEX() - 10) / 2;
 		else
 			weapon2Mod = (getSTR() - 10) / 2;
-		hit += (weapon1Mod > weapon2Mod)? weapon1Mod: weapon2Mod;
-		if(hit >= dodge){
+		if(hit + ((weapon1Mod > weapon2Mod)? weapon1Mod: weapon2Mod) >= dodge){
 			if(weapon1.toString().equals(weapon2.toString())){
 				Utilities.display(this.Name + " strikes with two " + weapon1.toString() + "s.");
 				for (int i = 0; i < 2; i++)
 					for (int die : weapon1.getDieRolls())
-						damage += Utilities.roll(die) + 2 * weapon1Mod;
+						damage += Utilities.roll(die);
+				damage += 2 * weapon1Mod;
 			} else {
 				if(!(weapon1.toString().equals(new Fist().toString()) || weapon1.toString().equals(new None().toString()))){
 					Utilities.display(this.Name + " strikes with " + weapon1.toString());
 					for (int die : weapon1.getDieRolls())
-						damage += Utilities.roll(die) + weapon1Mod;
+						damage += Utilities.roll(die);
+					damage += weapon1Mod;
 				}
 				if (!(weapon2.toString().equals(new Fist().toString()) || weapon2.toString().equals(new None().toString()))){
 					Utilities.display(" and " + weapon2.toString());
 					for (int die : weapon2.getDieRolls())
-						damage += Utilities.roll(die) + weapon2Mod;
+						damage += Utilities.roll(die);
+					damage += weapon2Mod;
 				}
 			}
 			if(hit == 20){

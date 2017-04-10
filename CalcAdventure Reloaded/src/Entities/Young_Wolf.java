@@ -1,10 +1,9 @@
 package Entities;
 
-import items.Weapon;
-import items.Weapon.DamageType;
-import items.Weapon.Enchantment;
-import items.weapons.Claw;
+import items.weapons.Bite;
 import items.weapons.None;
+import items.weapons.Weapon.DamageType;
+import items.weapons.Weapon.Enchantment;
 
 public class Young_Wolf extends Entity {
 
@@ -25,7 +24,7 @@ public class Young_Wolf extends Entity {
 
 	public Young_Wolf() {
 		super(Name, MAX_HP, STR, AGI, DEX, ITL, CHA, align,damageTypeWeaknesses, enchantWeaknesses, battlecries);
-		weapon1 = new Claw();
+		weapon1 = new Bite();
 		weapon2 = new None();
 	}
 

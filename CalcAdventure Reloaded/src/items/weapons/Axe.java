@@ -1,12 +1,11 @@
 package items.weapons;
 
-import items.Weapon;
 
 public class Axe extends Weapon{
 	
 	public static String name = "Axe";
 	
-	public static int[] diceRolls = new int[] {6};
+	public static int[] diceRolls = new int[] {10};
 	public static DamageType[] damageType = new DamageType[] {DamageType.Slashing};
 	public static Enchantment enchant = Enchantment.None;
 	public static int weight = 10;

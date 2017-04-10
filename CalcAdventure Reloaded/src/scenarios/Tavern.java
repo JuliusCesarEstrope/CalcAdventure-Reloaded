@@ -2,13 +2,13 @@ package scenarios;
 
 import game.Utilities;
 
-public class IcerunedPlains extends Scenario {
+public class Tavern extends Scenario {
 	
 	private static String scenarioName = "Iceruned Plains";
 	private static Scenario[] connected = {};
 	private static String[] keyWords = {};
 
-	public IcerunedPlains() {
+	public Tavern() {
 		super(scenarioName, connected, keyWords);
 	}
 

@@ -25,10 +25,10 @@ public abstract class Scenario {
 		Utilities.showElements(connected);
 	}
 	
-	public void chooseDestination(Scenario[] connectedScenes){
+	public void chooseDestination(Scenario[] connected){
 		String choice;
 		String[] destinationNames;
-		destinationNames = Utilities.toStringArray(connectedScenes);
+		destinationNames = Utilities.toStringArray(connected);
 		choice = Utilities.getValidInput(destinationNames, "You can't go there.");
 		moveTo(connected[Utilities.isInArray(choice, destinationNames)]);
 	}
